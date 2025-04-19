@@ -11,9 +11,7 @@ class MonitorSpider(scrapy.Spider):
     max_page = 10
 
     def parse(self, response):
-        products = response.css(
-            "ol.ui-search-layout.ui-search-layout--grid"
-        ).css("li")
+        products = response.css("ol.ui-search-layout.ui-search-layout--grid").css("li")
 
         for product in products:
             previous_price = (
@@ -31,12 +29,8 @@ class MonitorSpider(scrapy.Spider):
                 "brand": product.css(".poly-component__brand::text").get(),
                 "title": product.css(".poly-component__title::text").get(),
                 "seller": product.css(".poly-component__seller::text").get(),
-                "review_rating": product.css(
-                    ".poly-reviews__rating::text"
-                ).get(),
-                "review_total": product.css(
-                    ".poly-reviews__total::text"
-                ).get(),
+                "review_rating": product.css(".poly-reviews__rating::text").get(),
+                "review_total": product.css(".poly-reviews__total::text").get(),
                 "old_price": previous_price,
                 "new_price": current_price,
                 "page": self.page_count,
