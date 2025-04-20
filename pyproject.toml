@@ -6,7 +6,7 @@ authors = [
     {name = "marcosdrey",email = "programmarcos05@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "scrapy (>=2.12.0,<3.0.0)",
     "pandas (>=2.2.3,<3.0.0)"
@@ -19,6 +19,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.6"
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+taskipy = "^1.14.1"
 
 [tool.ruff]
 line-length = 88
@@ -26,3 +29,15 @@ line-length = 88
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'N', 'PL', 'PT', 'PD', 'AIR']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q --tb=short --cov=monitores_etl"
+
+[tool.taskipy.tasks]
+lint = "ruff check"
+pre_format = "ruff check --fix"
+format = "ruff format"
+pre_test = "task lint"
+test = "pytest -s -x -vv"
+post_test = "coverage html"
