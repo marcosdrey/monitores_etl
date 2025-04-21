@@ -9,7 +9,8 @@ readme = "README.md"
 requires-python = ">=3.13,<4.0"
 dependencies = [
     "scrapy (>=2.12.0,<3.0.0)",
-    "pandas (>=2.2.3,<3.0.0)"
+    "pandas (>=2.2.3,<3.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)"
 ]
 
 
@@ -31,6 +32,7 @@ preview = true
 select = ['I', 'F', 'E', 'W', 'N', 'PL', 'PT', 'PD', 'AIR']
 
 [tool.pytest.ini_options]
+pythonpath = "."
 testpaths = ["tests"]
 addopts = "-ra -q --tb=short --cov=monitores_etl"
 
@@ -39,5 +41,5 @@ lint = "ruff check"
 pre_format = "ruff check --fix"
 format = "ruff format"
 pre_test = "task lint"
-test = "pytest -s -x -vv"
+test = "pytest -s -x -vv -p no:warnings"
 post_test = "coverage html"

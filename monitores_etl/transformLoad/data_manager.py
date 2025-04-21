@@ -12,20 +12,24 @@ logging.basicConfig(
 
 
 class DataManager:
-    def __init__(self, data_path):
+    def __init__(self, data_path, save_path):
         self.data_path = data_path
+        self.save_path = save_path
         self.data = self.__read_file()
 
     def run_pipeline(self):
         logging.info("Iniciando execução da pipeline de dados.")
+        self._transform()
+        self.__save_to_db()
+        logging.info("Pipeline finalizada com sucesso.")
+
+    def _transform(self):
         self.__assure_all_products_have_title()
         self.__clean_seller_field()
         self.__transform_review_rating_field()
         self.__transform_review_total_field()
         self.__transform_price_fields(["old_price", "new_price"])
         self.__add_meta_fields()
-        self.__save_to_db()
-        logging.info("Pipeline finalizada com sucesso.")
 
     def __read_file(self):
         logging.info(f"Lendo arquivo: {self.data_path}")
@@ -74,6 +78,6 @@ class DataManager:
 
     def __save_to_db(self):
         logging.info("Salvando dados transformados no banco de dados.")
-        with sqlite3.connect("data/transformed_data.db") as conn:
+        with sqlite3.connect(self.save_path) as conn:
             self.data.to_sql("monitores", conn, if_exists="replace", index=False)
         logging.info("Dados salvos com sucesso.")
