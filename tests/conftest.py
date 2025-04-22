@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 from dotenv import load_dotenv
 from scrapy.http import Request, TextResponse
+from streamlit.testing.v1.app_test import AppTest
 
 from monitores_etl.transformLoad.data_manager import DataManager
 
@@ -39,3 +40,8 @@ def expected_data():
 @pytest.fixture(autouse=True)
 def disable_logging():
     logging.getLogger().setLevel(logging.ERROR)
+
+
+@pytest.fixture
+def at():
+    return AppTest.from_file("monitores_etl/dashboard/app.py").run()
