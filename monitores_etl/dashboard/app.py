@@ -8,9 +8,10 @@ from monitores_etl.dashboard import utils
 
 
 def main(engine):
+    st.set_page_config("Dashboard de Monitores", page_icon="🖥️")
     st.header("📊 Pesquisa - Monitores Gamer no Mercado Livre")
 
-    data = utils.load_data_from_db(engine=engine)
+    data = utils.load_data_from_db(engine)
     kpis = utils.calculate_kpis(data)
 
     st.subheader("💡 Principais KPIs")
