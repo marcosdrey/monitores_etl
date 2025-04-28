@@ -1,8 +1,8 @@
 import logging
-import sqlite3
 from datetime import datetime
 
 import pandas as pd
+from sqlalchemy import create_engine
 
 logging.basicConfig(
     level=logging.INFO,
@@ -78,6 +78,7 @@ class DataManager:
 
     def __save_to_db(self):
         logging.info("Salvando dados transformados no banco de dados.")
-        with sqlite3.connect(self.save_path) as conn:
+        engine = create_engine(self.save_path)
+        with engine.begin() as conn:
             self.data.to_sql("monitores", conn, if_exists="replace", index=False)
         logging.info("Dados salvos com sucesso.")

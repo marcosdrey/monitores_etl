@@ -1,10 +1,10 @@
-import sqlite3
-
+from sqlalchemy import create_engine
 import pandas as pd
 
 
-def load_data_from_db(db_path="data/transformed_data.db"):
-    with sqlite3.connect(db_path) as conn:
+def load_data_from_db(db_path):
+    engine = create_engine(db_path)
+    with engine.begin() as conn:
         return pd.read_sql("SELECT * FROM monitores", conn)
 
 
