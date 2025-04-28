@@ -5,7 +5,10 @@ from pathlib import Path
 import pytest
 from dotenv import load_dotenv
 from scrapy.http import Request, TextResponse
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from streamlit.testing.v1.app_test import AppTest
+from testcontainers.postgres import PostgresContainer
 
 from monitores_etl.transformLoad.data_manager import DataManager
 
@@ -25,14 +28,8 @@ def response():
 
 
 @pytest.fixture
-def delete_db():
-    if os.path.exists(SAVE_PATH):
-        os.remove(SAVE_PATH)
-
-
-@pytest.fixture
-def expected_data():
-    manager = DataManager(MOCK_PATH, SAVE_PATH)
+def expected_data(session):
+    manager = DataManager(MOCK_PATH, session.bind)
     manager._transform()
     return manager.data
 
@@ -45,3 +42,23 @@ def disable_logging():
 @pytest.fixture
 def at():
     return AppTest.from_file("monitores_etl/dashboard/app.py").run()
+
+
+@pytest.fixture(scope="session")
+def engine():
+    with PostgresContainer("postgres:16") as postgres:
+        postgres.start()
+        _engine = create_engine(postgres.get_connection_url())
+        yield _engine
+        _engine.dispose()
+
+
+@pytest.fixture
+def session(engine):
+    _session = sessionmaker(bind=engine)
+    session = _session()
+    try:
+        yield session
+    finally:
+        session.rollback()
+        session.close()

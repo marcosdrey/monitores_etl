@@ -9,14 +9,13 @@ from monitores_etl.transformLoad.data_manager import DataManager
 load_dotenv()
 
 MOCK_PATH = os.getenv("TEST_RAW_DATA_PATH")
-SAVE_PATH = os.getenv("TEST_SAVE_DATA_PATH")
 
 
-def test_sql_data_is_correctly_loaded(delete_db):
-    manager = DataManager(MOCK_PATH, SAVE_PATH)
+def test_sql_data_is_correctly_loaded(session):
+    manager = DataManager(MOCK_PATH, session.bind)
     manager.run_pipeline()
 
-    data = utils.load_data_from_db(SAVE_PATH)
+    data = utils.load_data_from_db(session.bind)
     assert isinstance(data, pd.DataFrame)
     assert not data.empty
 

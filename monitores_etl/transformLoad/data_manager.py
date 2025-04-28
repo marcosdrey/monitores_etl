@@ -2,7 +2,6 @@ import logging
 from datetime import datetime
 
 import pandas as pd
-from sqlalchemy import create_engine
 
 logging.basicConfig(
     level=logging.INFO,
@@ -12,9 +11,9 @@ logging.basicConfig(
 
 
 class DataManager:
-    def __init__(self, data_path, save_path):
+    def __init__(self, data_path, engine):
         self.data_path = data_path
-        self.save_path = save_path
+        self.engine = engine
         self.data = self.__read_file()
 
     def run_pipeline(self):
@@ -78,7 +77,6 @@ class DataManager:
 
     def __save_to_db(self):
         logging.info("Salvando dados transformados no banco de dados.")
-        engine = create_engine(self.save_path)
-        with engine.begin() as conn:
+        with self.engine.begin() as conn:
             self.data.to_sql("monitores", conn, if_exists="replace", index=False)
         logging.info("Dados salvos com sucesso.")

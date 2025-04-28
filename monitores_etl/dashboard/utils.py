@@ -1,9 +1,7 @@
-from sqlalchemy import create_engine
 import pandas as pd
 
 
-def load_data_from_db(db_path):
-    engine = create_engine(db_path)
+def load_data_from_db(engine):
     with engine.begin() as conn:
         return pd.read_sql("SELECT * FROM monitores", conn)
 
