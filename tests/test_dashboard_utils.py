@@ -1,18 +1,11 @@
-import os
-
 import pandas as pd
-from dotenv import load_dotenv
 
 from monitores_etl.dashboard import utils
 from monitores_etl.transformLoad.data_manager import DataManager
 
-load_dotenv()
 
-MOCK_PATH = os.getenv("TEST_RAW_DATA_PATH")
-
-
-def test_sql_data_is_correctly_loaded(session):
-    manager = DataManager(MOCK_PATH, session.bind)
+def test_sql_data_is_correctly_loaded(session, mock_data):
+    manager = DataManager(mock_data, session.bind)
     manager.run_pipeline()
 
     data = utils.load_data_from_db(session.bind)

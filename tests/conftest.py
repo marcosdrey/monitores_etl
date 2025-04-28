@@ -15,7 +15,6 @@ from monitores_etl.transformLoad.data_manager import DataManager
 load_dotenv()
 
 MOCK_PATH = os.getenv("TEST_RAW_DATA_PATH")
-SAVE_PATH = os.getenv("TEST_SAVE_DATA_PATH")
 
 
 @pytest.fixture
@@ -32,6 +31,11 @@ def expected_data(session):
     manager = DataManager(MOCK_PATH, session.bind)
     manager._transform()
     return manager.data
+
+
+@pytest.fixture
+def mock_data():
+    return MOCK_PATH
 
 
 @pytest.fixture(autouse=True)
