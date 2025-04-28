@@ -1,7 +1,13 @@
+import os
+
+from dotenv import load_dotenv
+
 from monitores_etl.transformLoad.data_manager import DataManager
 
-DATA_PATH = "data/raw_data.json"
-SAVE_PATH = "data/transformed_data.db"
+load_dotenv()
+
+DATA_PATH = os.getenv("RAW_DATA_PATH")
+SAVE_PATH = os.getenv("SAVE_DATA_PATH")
 
 
 def main(data_path, save_path):

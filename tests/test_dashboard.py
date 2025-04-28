@@ -3,12 +3,14 @@ def test_app_starts(at):
 
 
 def test_page_title(at):
-    assert len(at.header) == 1
+    total_headers = 1
+    assert len(at.header) == total_headers
     assert "📊 Pesquisa - Monitores Gamer no Mercado Livre" == at.header[0].value
 
 
 def test_page_subheaders(at):
-    assert len(at.subheader) == 4
+    total_subheaders = 4
+    assert len(at.subheader) == total_subheaders
     assert "💡 Principais KPIs" == at.subheader[0].value
     assert "🔍 Marcas mais encontradas" == at.subheader[1].value
     assert "💵 Preço médio por marca" == at.subheader[2].value
