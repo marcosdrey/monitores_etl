@@ -63,4 +63,4 @@ def main(engine):
 
 if __name__ == "__main__":
     load_dotenv()
-    main(engine=create_engine(os.getenv("SAVE_DATA_PATH")))
+    main(engine=create_engine(os.getenv("DATABASE_URL")))

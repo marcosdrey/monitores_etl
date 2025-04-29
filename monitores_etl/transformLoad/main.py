@@ -8,7 +8,7 @@ from monitores_etl.transformLoad.data_manager import DataManager
 load_dotenv()
 
 DATA_PATH = os.getenv("RAW_DATA_PATH")
-SAVE_PATH = os.getenv("SAVE_DATA_PATH")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 def main(data_path, engine):
@@ -17,4 +17,4 @@ def main(data_path, engine):
 
 
 if __name__ == "__main__":
-    main(DATA_PATH, engine=create_engine(SAVE_PATH))  # pragma: no cover
+    main(DATA_PATH, engine=create_engine(DATABASE_URL))  # pragma: no cover

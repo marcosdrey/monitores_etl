@@ -1,0 +1,25 @@
+services:
+  db_monitores:
+    image: postgres
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  monitores:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    depends_on:
+      - db_monitores
+    environment:
+      POSTGRES_HOST: db_monitores
+
+volumes:
+  pgdata:
