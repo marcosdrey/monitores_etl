@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 
 from monitores_etl.dashboard import utils
 
+load_dotenv()
+
 
 def main(engine):
     st.set_page_config("Dashboard de Monitores", page_icon="🖥️")
@@ -62,5 +64,4 @@ def main(engine):
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main(engine=create_engine(os.getenv("DATABASE_URL")))

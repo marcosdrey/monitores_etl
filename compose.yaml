@@ -18,6 +18,8 @@ services:
       - .env
     depends_on:
       - db_monitores
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://app_user:app_password@db_monitores:5432/app_db
 
 volumes:
   pgdata:
