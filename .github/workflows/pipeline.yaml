@@ -24,10 +24,11 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Instalar dependências do sistema
-        run: |
-          sudo apt update
-          sudo apt install -y libpq-dev python3-dev build-essential
+      - name: Instalar o python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
 
       - name: Instalar Poetry
         run: |
