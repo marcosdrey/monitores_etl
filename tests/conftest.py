@@ -54,7 +54,8 @@ def at(session):
 
 @pytest.fixture(scope="session")
 def engine():
-    with PostgresContainer("postgres:16", driver="psycopg2") as postgres:
+    with PostgresContainer("postgres:16") as postgres:
+        postgres.start()
         _engine = create_engine(postgres.get_connection_url())
         yield _engine
         _engine.dispose()
