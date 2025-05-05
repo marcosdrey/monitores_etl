@@ -38,4 +38,4 @@ def test_parser_next_page(response):
     next_request = results[-1]
 
     assert isinstance(next_request, Request)
-    assert next_request.url == "http://test2.com"
+    assert next_request.url == "https://lista.mercadolivre.com.br/informatica/monitores-acessorios/monitores/e-gamer/monitor-gamer_Desde_2_NoIndex_True?sb=rb"

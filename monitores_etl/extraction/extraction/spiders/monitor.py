@@ -9,9 +9,11 @@ class MonitorSpider(scrapy.Spider):
     ]
     page_count = 1
     max_page = 10
+    product_index = -1
 
     def parse(self, response):
         products = response.css("ol.ui-search-layout.ui-search-layout--grid").css("li")
+        self.product_index += len(products)
 
         for product in products:
             previous_price = (
@@ -37,9 +39,7 @@ class MonitorSpider(scrapy.Spider):
             }
 
         if self.page_count < self.max_page:
-            next_page_url = response.css(
-                ".andes-pagination__button--next a::attr(href)"
-            ).get()
+            next_page_url = f"https://lista.mercadolivre.com.br/informatica/monitores-acessorios/monitores/e-gamer/monitor-gamer_Desde_{self.product_index}_NoIndex_True?sb=rb"
             if next_page_url:
                 self.page_count += 1
                 yield scrapy.Request(url=next_page_url, callback=self.parse)

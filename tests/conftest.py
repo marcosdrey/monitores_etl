@@ -10,7 +10,6 @@ from sqlalchemy.orm import sessionmaker
 from streamlit.testing.v1.app_test import AppTest
 from testcontainers.postgres import PostgresContainer
 
-from monitores_etl.dashboard import app
 from monitores_etl.transformLoad.data_manager import DataManager
 
 load_dotenv()
@@ -45,10 +44,10 @@ def disable_logging():
 
 
 @pytest.fixture
-def at(session):
-    manager = DataManager(MOCK_PATH, session.bind)
+def at(engine):
+    manager = DataManager(MOCK_PATH, engine)
     manager.run_pipeline()
-    app.main(engine=session.bind)
+    os.environ["DATABASE_URL"] = engine.url.render_as_string(hide_password=False)
     return AppTest.from_file("monitores_etl/dashboard/app.py").run()
 
 
