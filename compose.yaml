@@ -2,7 +2,7 @@ services:
   db_monitores:
     image: postgres
     env_file:
-      - .env
+      - .env.docker
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -15,11 +15,9 @@ services:
     ports:
       - "8501:8501"
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       - db_monitores
-    environment:
-      POSTGRES_HOST: db_monitores
 
 volumes:
   pgdata:
