@@ -7,6 +7,8 @@ jobs:
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      RAW_DATA_PATH: ${{ secrets.RAW_DATA_PATH }}
+      TEST_RAW_DATA_PATH: ${{ secrets.TEST_RAW_DATA_PATH }}
 
     steps:
       - name: Copia os arquivos do repositório
